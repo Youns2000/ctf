@@ -62,7 +62,7 @@ class App extends Component {
             {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/Scoreboard"} className="nav-link">
-                  Scoreboard
+                  Scoreboardpaul.lege@epita.fr
                 </Link>
               </li>
             )}
