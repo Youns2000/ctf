@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 4.5em;
+  margin-right: 0.75em;
+}
+
+.App-form {
+  padding: 20px;
+}
+
+.App-form.Input {
+  padding: 20px;
+}
+
+input {
+  padding: 1em 1.5em;
+  border: none;
+  box-shadow: inset 0 0 1px black;
+  border: 2px;
+  font-size: 1em;
+}
+
+.App-form-group input {
+  border-radius: 2px 0 0 2px;
+  margin-left: 1em;
+}
+
+.App-form-group .App-btn {
+  border-radius: 0 2px 2px 0;
+}
+
+.App-btn {
+  display: inline-block;
+  margin: 1em 0;
+  padding: 1em 1.5em;
+  font-size: 1em;
+  border-radius: 2px;
+  background: #f67c46;
+  color: white;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.App-btn:active {
+  background: #d06739;
+}
+
+.App-btn:hover {
+  background: #e86931;
+}

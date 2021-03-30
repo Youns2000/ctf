@@ -1,0 +1,28 @@
+.Header {
+  background-color: #222;
+  padding: 0.5em 2em;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.Header-Right {
+  position: absolute;
+  right: 100px;
+}
+
+.Icon {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: rgba(131, 226, 243, 0.89);
+}
+
+.Icon:hover {
+  color: orangered;
+}
+
+.IconSelected {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #19b126;
+}
