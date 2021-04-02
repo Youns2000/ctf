@@ -52,5 +52,5 @@ jobs:
       with:
         app-name: 'ctf-algebra'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6c756aee55cc44c5bf0d4dfdd57c3d0d }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1168e3819030465aaa13f607a4180325 }}
         package: .
