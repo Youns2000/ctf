@@ -21,8 +21,6 @@ const auth = {
   }
 }
 
-
-
 function App() {
   if (auth.isAuthenticated) {
     return (
