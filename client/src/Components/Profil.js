@@ -7,7 +7,7 @@ export default class Profil extends Component {
     constructor() {
         super();
         this.state = {
-            clients: new Array(),
+            users: new Array(),
             // clientName: "YOUYOU"
         }
     }
@@ -21,9 +21,9 @@ export default class Profil extends Component {
     componentDidMount() {
         axios.get("/api/user/register").then(response => {
             this.setState({
-                clients: response.data.tmp
+                users: response.data.tmp
             })
-            console.log(response.data.tmp)
+            // console.log(response.data.tmp)
         })
     }
 
@@ -51,9 +51,9 @@ export default class Profil extends Component {
             <div>
                 <h1>Profil</h1>
                 <h2>{this.state.clients}</h2>
-                <input name="clientName" /><br />
+                {/* <input name="clientName" /><br />
                 <Button className="btn" type="submit" onClick={this.handleButtonClick}>OK</Button>
-                <Button className="btn" type="submit" onClick={this.handleClick}>TEST</Button>
+                <Button className="btn" type="submit" onClick={this.handleClick}>TEST</Button> */}
             </div>
         )
     }

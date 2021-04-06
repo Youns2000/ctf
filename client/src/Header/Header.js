@@ -2,21 +2,26 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css';
 import logo from '../logo.png'
+import 'bootstrap/dist/css/bootstrap.css';
+import { House, ListOl } from 'react-bootstrap-icons';
 import { IoHomeOutline, IoListOutline, IoLayersOutline, IoOptionsOutline } from "react-icons/io5";
 
 class Header extends Component {
+
     constructor(props) {
         super(props);
-        this.state = { color: "#282c34" };
+        this.state = { color_inactive: "#282c34", color_active: "#007bff", active: 0 };
     }
 
-    changeColor = color => {
-        this.setState({ color });
-        console.log(this.state.color)
+    changeColor = color => () => {
+        this.setState({ active: color })
+        console.log(color);
     };
 
+
     render() {
-        var style = { color: this.state.color };
+        var color_active = { color: this.state.color_active };
+        var color_inactive = { color: this.state.color_inactive };
         // console.log("color:" + this.state.color);
         return (
             <div className="App" >
@@ -25,24 +30,25 @@ class Header extends Component {
                         <img src={logo} className="App-logo" alt="logo" />
                     </Link>
                     <div className="Header-Right">
-                        <Link to={process.env.PUBLIC_URL + '/'}>
-                            <IoHomeOutline onClick={() => this.changeColor("#19b126")} className="Icon" size={27} />
+                        <Link style={this.state.active === 0 ? color_active : color_inactive} onClick={this.changeColor(0)} to={process.env.PUBLIC_URL + '/'}>
+                            <House size={32} />
                         </Link>
-                        <Link style={style} to={process.env.PUBLIC_URL + '/Scoreboard'}>
-                            <IoListOutline className="Icon" onClick={() => this.changeColor("#19b126")} size={27} />
+                        <Link style={this.state.active === 1 ? color_active : color_inactive} onClick={this.changeColor(1)} to={process.env.PUBLIC_URL + '/Scoreboard'}>
+                            <ListOl size={32} />
+                            Scoreboard
                         </Link>
-                        <Link style={style} to={process.env.PUBLIC_URL + '/Challenges'}>
-                            <IoLayersOutline className="Icon" onClick={() => this.changeColor("#19b126")} size={27} />
+                        <Link style={this.state.active === 2 ? color_active : color_inactive} onClick={this.changeColor(2)} to={process.env.PUBLIC_URL + '/Challenges'}>
+                            <House size={32} />
                         </Link>
-                        <Link style={style} to={process.env.PUBLIC_URL + '/Profil'}>
-                            <IoOptionsOutline className="Icon" onClick={() => this.changeColor("#19b126")} size={27} />
+                        <Link style={this.state.active === 3 ? color_active : color_inactive} onClick={this.changeColor(3)} to={process.env.PUBLIC_URL + '/Profil'}>
+                            <House size={32} />
                         </Link>
-                        <Link style={style} to={process.env.PUBLIC_URL + '/Log'}>
+                        {/* <Link style={style} to={process.env.PUBLIC_URL + '/Log'}>
                             <IoOptionsOutline className="Icon" onClick={() => this.changeColor("#19b126")} size={27} />
                         </Link>
                         <Link style={style} to={process.env.PUBLIC_URL + '/Sign'}>
                             <IoOptionsOutline className="Icon" onClick={() => this.changeColor("#19b126")} size={27} />
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>

@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./Log.css";
+import "./Register.css";
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from '../../logo.ico'
+import logo from '../../logo.ico';
 
 export default function Log() {
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return email.length > 0 && password.length > 0 && username.length > 0;
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-
     }
 
     return (
@@ -27,6 +27,16 @@ export default function Log() {
             />
             <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="email">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        autoFocus
+                        // type="email"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                         autoFocus
@@ -35,6 +45,7 @@ export default function Log() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </Form.Group>
+
                 <Form.Group size="lg" controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
@@ -43,10 +54,11 @@ export default function Log() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
+
                 <Button block size="lg" type="submit" disabled={!validateForm()}>
-                    Login
+                    Register
                 </Button>
-                <a href="/Register" >Register</a>
+                <a href="/Login" >Login</a>
             </Form>
 
         </div>

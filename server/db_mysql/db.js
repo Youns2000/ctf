@@ -8,9 +8,9 @@ function connectDatabase() {
 
         db.connect(function (err) {
             if (!err) {
-                console.log('Connected to database!');
+                console.log('Connected to MySql database!');
             } else {
-                console.log('Error connecting database!');
+                console.log('Error connecting MySql database!');
             }
         });
     }
