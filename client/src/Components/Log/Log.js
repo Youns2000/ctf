@@ -4,29 +4,31 @@ import Button from "react-bootstrap/Button";
 import "./Log.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../logo.ico';
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import { login } from "../../services/api.js"
 
 export default function Log() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const history = useHistory();
 
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        var user = {
-            email: email,
-            password: password
+        try {
+            const token = await login(event.target.email.value, event.target.password.value)
+            console.log(token)
+            history.push("/");
+        } catch (error) {
+            console.error(error);
+            alert("Error logging in please try again");
         }
-        console.log(user)
-        // axios.get('/api/login')
-        //     .then(res => {
-        //         const persons = res.data;
-        //         this.setState({ persons });
-        //     })
-    }
+
+    };
 
     return (
         <div className="Login">
