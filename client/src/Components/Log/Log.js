@@ -3,7 +3,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Log.css";
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from '../../logo.ico'
+import logo from '../../logo.ico';
+import axios from 'axios';
 
 export default function Log() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,16 @@ export default function Log() {
 
     function handleSubmit(event) {
         event.preventDefault();
-
+        var user = {
+            email: email,
+            password: password
+        }
+        console.log(user)
+        // axios.get('/api/login')
+        //     .then(res => {
+        //         const persons = res.data;
+        //         this.setState({ persons });
+        //     })
     }
 
     return (

@@ -4,7 +4,7 @@ const session = require('express-session');
 const app = express();
 var mongoose = require('mongoose');
 const register = require('./routes/api/register')
-// const login = require('./routes/api/login')
+const login = require('./routes/api/login')
 const url = "mongodb+srv://ctfAlgebra:testAlgebra@cluster0.xc7ot.mongodb.net/ctf?retryWrites=true&w=majority"
 
 app.use(bodyParser.json());
@@ -54,7 +54,7 @@ mongoose.connect(url, connectionParams)
 
 //ROUTES
 app.use('/api/register', register)
-// app.use('/api/login', login)
+app.use('/api/login', login)
 
 
 app.listen(port, () => {

@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./Register.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../logo.ico';
+import axios from 'axios';
 
 export default function Log() {
     const [username, setUsername] = useState("");
@@ -16,6 +17,12 @@ export default function Log() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        var user = {
+            name: username,
+            email: email,
+            password: password
+        }
+        axios.post('/api/register', user)
     }
 
     return (
