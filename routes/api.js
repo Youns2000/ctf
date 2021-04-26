@@ -7,7 +7,7 @@ const User = require('../models/user');
 const router = require('express').Router();
 
 router.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user) => {
+    passport.authenticate('local', (err, user) => {
         if (err) {
             return next(err)
         }

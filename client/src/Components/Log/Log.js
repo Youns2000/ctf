@@ -5,7 +5,6 @@ import "./Log.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../logo.ico';
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 import { login } from "../../services/api.js"
 
 export default function Log() {
@@ -20,8 +19,8 @@ export default function Log() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const token = await login(event.target.email.value, event.target.password.value)
-            console.log(token)
+            const token = await login(email, password)
+            localStorage.setItem('token', token);
             history.push("/");
         } catch (error) {
             console.error(error);

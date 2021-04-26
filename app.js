@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const cors = require('cors')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const passportJWT = require('passport-jwt')
@@ -12,6 +13,7 @@ JWTStrategy = passportJWT.Strategy
 
 const app = express();
 app.use(passport.initialize())
+app.use(cors())
 
 const user = {
   id: "1",
@@ -20,9 +22,10 @@ const user = {
 }
 
 passport.use(new LocalStrategy({
-  usernameFiled: "email"
+  usernameField: 'email',
+  passwordField: 'password'
 }, (email, password, done) => {
-  if (email == user.email && password == user.password) {
+  if (email === user.email && password === user.password) {
     return done(null, user)
   }
   else {
@@ -30,12 +33,11 @@ passport.use(new LocalStrategy({
   }
 }))
 
-
 passport.use(new JWTStrategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: "hard_token_men"
 }, (jwt_payload, done) => {
-  if (user.id == jwt_payload.user._id) {
+  if (user.id === jwt_payload.user._id) {
     return done(null, user)
   } else {
     return done(null, false, {

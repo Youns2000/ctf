@@ -2,8 +2,6 @@ import './App.css';
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect, Link } from 'react-router-dom'
 import Header from './Header/Header.js'
-import Comptes from './Components/Comptes'
-import axios from 'axios'
 import News from './Components/News';
 import Scoreboard from './Components/Scoreboard';
 import Challenges from './Components/Challenges';
@@ -24,26 +22,17 @@ class App extends Component {
 
   }
 
-  handleAuth() {
-    axios.post('/api/login', {
-
-    })
-  }
-
-
-
   render() {
     if (auth.isAuthenticated) {
       return (
         <div className="App">
           <Router>
-            <Header></Header>
+            <Header />
             <Route exact path="/" component={News} />
             <Route exact path="/News" component={News} />
             <Route path="/Challenges" component={Challenges} />
             <Route path="/Scoreboard" component={Scoreboard} />
             <Route path="/Profil" component={Profil} />
-
           </Router>
         </div>
       );
