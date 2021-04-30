@@ -63,7 +63,7 @@ app.get("*", (req, res) => {
 //SESSION
 const TWO_H = 2 * 60 * 60 * 1000;
 const {
-  port = 5000,
+  port = 8080,
   SESSION_LIFETIME = TWO_H
 } = process.env
 
