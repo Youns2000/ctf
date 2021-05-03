@@ -3,7 +3,10 @@
 }
 
 .App-logo {
-  height: 4.5em;
+  /* height: 4.5em; */
+  margin-top: 7px;
+  height: 73px;
+  width: 73px;
   margin-right: 0.75em;
 }
 

@@ -14,7 +14,6 @@ export const login = (email, password) => {
     ).then((res) => {
         if (res.status === 200) {
             return res.data;
-
         } else {
             const error = new Error(res.error);
             throw error;
@@ -22,26 +21,31 @@ export const login = (email, password) => {
     });
 };
 
-// export const login = (email, password) => {
-//     return fetch(`/api/login`, {
-//         method: "POST",
-//         body: JSON.stringify({
-//             email,
-//             password,
-//         }),
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     }).then((res) => {
-//         if (res.status === 200) {
-//             return res.json().then((data) => {
-//                 return data.token
-//             });
-//         } else {
-//             const error = new Error(res.error);
-//             throw error;
-//         }
-//     });
-// };
+export const authCheck = () => {
+    // console.log(JSON.parse(localStorage.getItem("token")))
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token !== null && token !== "") {
+        return axios.get(`/api/auth`, {
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+            .then((res, err) => {
+                if (res.status === 200) {
+                    return true;
+                } else if (err) {
+                    const error = new Error(res.error);
+                    console.log("miaouw")
+                    throw error;
+                } else {
+                    console.log("miaouw false")
+                    return false;
+                }
+            });
+    }
+    else {
+        return false;
+    }
+}
 
 export const getSecret = () => { };

@@ -14,6 +14,14 @@ const UserItem = new Schema({
     password: {
         type: String,
         required: true
+    },
+    actived: {
+        type: Boolean,
+        default: false
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 })
 

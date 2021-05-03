@@ -2,18 +2,21 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const cors = require('cors')
-const passport = require('passport')
-const LocalStrategy = require('passport-local')
-const passportJWT = require('passport-jwt')
-const cookieParser = require('cookie-parser')
+const cors = require('cors');
+const bcrypt = require('bcrypt')
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const passportJWT = require('passport-jwt');
+const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api');
 
 JWTStrategy = passportJWT.Strategy
 
 const app = express();
-app.use(passport.initialize())
-app.use(cors())
+app.use(passport.initialize());
+app.use(cookieParser("hard_token_men"));
+app.use(passport.session());
+app.use(cors());
 
 const user = {
   id: "1",
@@ -21,17 +24,38 @@ const user = {
   password: "password"
 }
 
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, (email, password, done) => {
-  if (email === user.email && password === user.password) {
-    return done(null, user)
-  }
-  else {
-    return done(null, false)
-  }
-}))
+// passport.use(new LocalStrategy({
+//   usernameField: 'email',
+//   passwordField: 'password'
+// }, (email, password, done) => {
+//   if (email === user.email && password === user.password) {
+//     return done(null, user)
+//   }
+//   else {
+//     return done(null, false)
+//   }
+// }))
+
+passport.use(
+  new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  }, (email, password, done) => {
+    User.findOne({ email: email }, (err, user) => {
+      if (err) throw err;
+      if (!user) return done(null, false);
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) throw err;
+        if (result === true) {
+          return done(null, user);
+        } else {
+          console.log("false");
+          return done(null, false);
+        }
+      });
+    });
+  })
+);
 
 passport.use(new JWTStrategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -49,7 +73,6 @@ passport.use(new JWTStrategy({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "client/build")))
 //ROUTES
@@ -63,27 +86,27 @@ app.get("*", (req, res) => {
 //SESSION
 const TWO_H = 2 * 60 * 60 * 1000;
 const {
-  port = 8080,
+  port = process.env.PORT || 5000,
   SESSION_LIFETIME = TWO_H
 } = process.env
 
-app.use(session({
-  name: 'sess_id',
-  resave: false,
-  cookie: {
-    maxAge: SESSION_LIFETIME,
-    samesite: true,
-    secure: false
-  },
-  secret: 'that\'s a secret men',
-  saveUninitialized: false
-}));
+// app.use(session({
+//   name: 'sess_id',
+//   resave: false,
+//   cookie: {
+//     maxAge: SESSION_LIFETIME,
+//     samesite: true,
+//     secure: false
+//   },
+//   secret: 'that\'s a secret men',
+//   saveUninitialized: false
+// }));
 
 
 
 //MONGO DB
 var mongoose = require('mongoose');
-const url = "mongodb+srv://ctfAlgebra:testAlgebra@cluster0.xc7ot.mongodb.net/ctf?retryWrites=true&w=majority"
+const url = "mongodb://ctf:tRmW97afbONtMBj8RENYWUWGdpCJok330iwtM3HOrAlnOVJvLvthIW9pf6wVHEntPIJP0GIoYscjvgcFMRhR9A==@ctf.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@ctf@/ctf"
 
 const connectionParams = {
   useNewUrlParser: true,
@@ -97,6 +120,16 @@ mongoose.connect(url, connectionParams)
   .catch((err) => {
     console.error(`Error connecting to the Mongo database. \n${err}`);
   })
+
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.send(err.message);
+});
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

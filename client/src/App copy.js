@@ -1,46 +1,35 @@
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, NavLink, Redirect, Link } from 'react-router-dom'
+import React, { useState, useEffect, Component } from 'react'
+import { BrowserRouter as Router, Switch, Route, NavLink, Redirect, Link, history } from 'react-router-dom'
 import Header from './Header/Header.js'
-import Comptes from './Components/Comptes'
 import News from './Components/News';
 import Scoreboard from './Components/Scoreboard';
 import Challenges from './Components/Challenges';
 import Profil from './Components/Profil';
-import Log from './Components/Log'
+import Login from './Components/Log/Log'
+import Register from './Components/Register/Register'
+import { authCheck } from "./services/api.js"
 
-const auth = {
-  isAuthenticated: true,
-  authenticate(cb) {
-    this.isAuthenticated = true
-    setTimeout(cb, 100) // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false
-    setTimeout(cb, 100) // fake async
-  }
-}
+export default function App() {
+  const [auth, setAuth] = useState("");
 
-// const auth = {
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     this.isAuthenticated = true
-//     setTimeout(cb, 100) // fake async
-//   },
-//   signout(cb) {
-//     this.isAuthenticated = false
-//     setTimeout(cb, 100) // fake async
-//   }
-// }
+  useEffect(() => {
+    const check = async () => {
+      const checked = await authCheck()
+      setAuth(checked)
+      console.log(checked)
+      console.log(auth)
+    }
+    check();
+  }, [])
 
-
-
-function App() {
-  if (auth.isAuthenticated) {
+  if (auth) {
     return (
       <div className="App">
         <Router>
-          <Header></Header>
-          <Route path="/News" component={News} />
+          <Header />
+          <Route exact path="/" component={News} />
+          <Route exact path="/News" component={News} />
           <Route path="/Challenges" component={Challenges} />
           <Route path="/Scoreboard" component={Scoreboard} />
           <Route path="/Profil" component={Profil} />
@@ -50,36 +39,66 @@ function App() {
   }
   else {
     return (
-      <Router>
-        <div className="App">
-          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-            <div className="container">
-              <Link className="navbar-brand" to={"/sign-in"}>positronX.io</Link>
-              <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/sign-in"}>Login</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
-          <div className="auth-wrapper">
-            <div className="auth-inner">
-              <Switch>
-                <Route exact path='/' component={Log} />
-                <Route path="/sign-in" component={Log} />
-                {/* <Route path="/sign-up" component={SignUp} /> */}
-              </Switch>
-            </div>
-          </div>
-        </div></Router>
+      <div>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/Login" component={Login} />
+            <Route path="/Register" component={Register} />
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }
 
-export default App;
+// class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isAuthenticated: false
+//     }
+
+//   }
+
+//   async componentDidMount() {
+//     try {
+//       const checked = await authCheck()
+//       console.log(checked)
+//     } catch (error) {
+//       console.error(error);
+//       alert("Error logging in please try again");
+//     }
+//   }
+//   render() {
+//     if (auth.isAuthenticated) {
+//       return (
+//         <div className="App">
+//           <Router>
+//             <Header />
+//             <Route exact path="/" component={News} />
+//             <Route exact path="/News" component={News} />
+//             <Route path="/Challenges" component={Challenges} />
+//             <Route path="/Scoreboard" component={Scoreboard} />
+//             <Route path="/Profil" component={Profil} />
+//           </Router>
+//         </div>
+//       );
+//     }
+//     else {
+//       return (
+//         <div>
+//           <Router>
+//             <Switch>
+//               <Route exact path="/" component={Login} />
+//               <Route exact path="/Login" component={Login} />
+//               <Route path="/Register" component={Register} />
+//             </Switch>
+//           </Router>
+//         </div>
+//       );
+//     }
+//   }
+// };
+
+// export default App;

@@ -21,6 +21,11 @@
   color: orangered;
 }
 
+a {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 /* .IconSelected {
   padding-left: 20px;
   padding-right: 20px;

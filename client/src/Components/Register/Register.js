@@ -23,6 +23,9 @@ export default function Log() {
             password: password
         }
         axios.post('/api/register', user)
+            .then((res) => {
+                console.log(res.data)
+            })
     }
 
     return (

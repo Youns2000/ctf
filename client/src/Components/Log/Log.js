@@ -20,8 +20,11 @@ export default function Log() {
         event.preventDefault();
         try {
             const token = await login(email, password)
-            localStorage.setItem('token', token);
-            history.push("/");
+            if (token === "Wrong email or password");
+            else {
+                localStorage.setItem('token', JSON.stringify(token.token));
+                history.push("/");
+            }
         } catch (error) {
             console.error(error);
             alert("Error logging in please try again");

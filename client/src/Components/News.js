@@ -5,8 +5,7 @@ export default class News extends Component {
     render() {
         return (
             <div>
-                <Post name="younes" />
-                <Post />
+                <h1>Home</h1>
             </div>
         )
     }

@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require("passport")
 const jwt = require("jsonwebtoken")
 var mongoose = require('mongoose');
-var crypto = require('crypto');
+const bcrypt = require("bcrypt");
 const User = require('../models/user');
 const router = require('express').Router();
 
@@ -23,28 +23,31 @@ router.post("/login", (req, res, next) => {
     })(req, res, next)
 })
 
-router.post('/register', (req, res) => {
-    // const salt = crypto.randomBytes(16).toString('hex');
-    // const hash = crypto.pbkdf2Sync(req.body.password, salt,
-    //     1000, 64, `sha512`).toString(`hex`);
+router.post('/register', async (req, res) => {
+    User.findOne({ name: req.body.name }, async (err, element) => {
+        if (err) throw err;
+        else if (element) {
+            res.send("User already exist");
+        }
+        else {
+            const salt = await bcrypt.genSalt(10);
+            const mdp = await bcrypt.hash(req.body.password, salt);
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: mdp
+            })
+            newUser.save(user => res.json(user))
+            res.send("New User Added")
+        }
 
-    const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    })
-    newUser.save(user => res.json(user))
+    });
+
 
 })
 
-router.get("/secret", passport.authenticate("jwt", { session: false }), (req, res) => {
-    if (!req.user) {
-        res.json({
-            username: "nobody"
-        })
-    } else {
-        res.json(req.user)
-    }
+router.get("/auth", passport.authenticate("jwt", { session: false }), (req, res) => {
+    res.send(req.user);
 })
 
 module.exports = router;
