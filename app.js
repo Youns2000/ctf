@@ -18,11 +18,11 @@ app.use(cookieParser("hard_token_men"));
 app.use(passport.session());
 app.use(cors());
 
-const user = {
-  id: "1",
-  email: "exemple@email.com",
-  password: "password"
-}
+// const user = {
+//   id: "1",
+//   email: "exemple@email.com",
+//   password: "password"
+// }
 
 // passport.use(new LocalStrategy({
 //   usernameField: 'email',
@@ -106,7 +106,7 @@ const {
 
 //MONGO DB
 var mongoose = require('mongoose');
-const url = "mongodb://ctf:tRmW97afbONtMBj8RENYWUWGdpCJok330iwtM3HOrAlnOVJvLvthIW9pf6wVHEntPIJP0GIoYscjvgcFMRhR9A==@ctf.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@ctf@/ctf"
+const url = "mongodb://ctf:tRmW97afbONtMBj8RENYWUWGdpCJok330iwtM3HOrAlnOVJvLvthIW9pf6wVHEntPIJP0GIoYscjvgcFMRhR9A==@ctf.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@ctf@"
 
 const connectionParams = {
   useNewUrlParser: true,
@@ -121,15 +121,15 @@ mongoose.connect(url, connectionParams)
     console.error(`Error connecting to the Mongo database. \n${err}`);
   })
 
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use(function (err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.send(err.message);
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.send(err.message);
+// });
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

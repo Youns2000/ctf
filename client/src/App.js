@@ -6,6 +6,12 @@ import Login from './Components/Log/Log'
 import Register from './Components/Register/Register'
 import PrivateRoute from './PrivateRoute'
 import Header from './Header/Header.js'
+import Comptes from './Components/Comptes'
+import News from './Components/News';
+import Scoreboard from './Components/Scoreboard';
+import Challenges from './Components/Challenges';
+import Profil from './Components/Profil';
+import Log from './Components/Log/Log'
 
 export default function App() {
 
