@@ -10,7 +10,6 @@ import Challenges from './Challenges';
 import Profil from './Profil';
 import Log from './Log/Log'
 import PrivateRoute from '../PrivateRoute'
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
 

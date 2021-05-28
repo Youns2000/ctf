@@ -57,19 +57,32 @@ passport.use(
   })
 );
 
+// passport.use(new JWTStrategy({
+//   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
+//   secretOrKey: "hard_token_men"
+// }, (jwt_payload, done) => {
+//   if (user.id === jwt_payload.user._id) {
+//     return done(null, user)
+//   } else {
+//     return done(null, false, {
+//       message: "Token not matched"
+//     })
+//   }
+// }
+// ))
+
 passport.use(new JWTStrategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: "hard_token_men"
 }, (jwt_payload, done) => {
-  if (user.id === jwt_payload.user._id) {
-    return done(null, user)
-  } else {
-    return done(null, false, {
-      message: "Token not matched"
-    })
-  }
+  User.findOne({ _id: jwt_payload.user._id }, (err, user) => {
+    if (err) throw err;
+    if (!user) return done(null, false);
+    return done(null, user);
+  });
 }
 ))
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

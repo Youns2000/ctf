@@ -1,7 +1,16 @@
 .App {
   text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: DejaVuSansMono, HackArgo, sans-serif;
 }
-
+/* .body {
+  background-image: url("../src/fonts/wallpaper.jpg");
+  background-color: black;
+  color: #fefefe;
+  overflow-y: scroll;
+} */
 .App-logo {
   /* height: 4.5em; */
   margin-top: 7px;

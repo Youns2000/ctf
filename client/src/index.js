@@ -3,7 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './fonts/HackArgo/Hacker_Argot_Regular.ttf';
+import './fonts/DejaVu/DejaVuSansMono.ttf';
+import bg from "./fonts/wallpaper.jpg"
 
+document.body.style.backgroundImage = `url(${bg})`;
+document.body.style.color = "#fefefe";
+document.body.style.overflowY = "scroll";
+
+// .body {
+//   /* background-image: url("../src/fonts/wallpaper.jpg"); */
+//   background - color: black;
+//   color: #fefefe;
+//   overflow - y: scroll;
+// }
 ReactDOM.render(
   <React.StrictMode>
     <App />

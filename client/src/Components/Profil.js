@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'react-bootstrap';
 import axios from 'axios'
+import { logout } from '../services/api'
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class Profil extends Component {
@@ -51,9 +53,8 @@ export default class Profil extends Component {
             <div>
                 <h1>Profil</h1>
                 <h2>{this.state.clients}</h2>
-                {/* <input name="clientName" /><br />
-                <Button className="btn" type="submit" onClick={this.handleButtonClick}>OK</Button>
-                <Button className="btn" type="submit" onClick={this.handleClick}>TEST</Button> */}
+                <Button className="btn" type="submit" onClick={logout()}>Deconnexion</Button>
+
             </div>
         )
     }

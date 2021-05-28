@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useHistory } from 'react-router-dom'
 
 const server = process.env.REACT_APP_API_SERVER;
 
@@ -21,7 +22,7 @@ export const login = (email, password) => {
     });
 };
 
-export const authCheck = () => {
+export function authCheck() {
     // console.log(JSON.parse(localStorage.getItem("token")))
     const token = JSON.parse(localStorage.getItem("token"))
     if (token !== null && token !== "") {
@@ -32,20 +33,28 @@ export const authCheck = () => {
         })
             .then((res, err) => {
                 if (res.status === 200) {
+                    console.log("yeah men")
                     return true;
-                } else if (err) {
-                    const error = new Error(res.error);
-                    console.log("miaouw")
-                    throw error;
-                } else {
-                    console.log("miaouw false")
+                }
+                else {
                     return false;
                 }
-            });
+            })
+            .catch(err => {
+                if (err.response.status === 401) {
+                    console.log("unauthorized")
+                    return false;
+                }
+            })
     }
     else {
+        console.log("lila mega false")
         return false;
     }
+}
+
+export const logout = () => {
+    localStorage.removeItem('token');
 }
 
 export const getSecret = () => { };
