@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 
 const server = process.env.REACT_APP_API_SERVER;
 
-export const login = (email, password) => {
+// export default class Services extends React.Component {
+
+export function login(email, password) {
     return axios.post(`/api/login`,
         {
             email,
@@ -23,7 +26,6 @@ export const login = (email, password) => {
 };
 
 export function authCheck() {
-    // console.log(JSON.parse(localStorage.getItem("token")))
     const token = JSON.parse(localStorage.getItem("token"))
     if (token !== null && token !== "") {
         return axios.get(`/api/auth`, {
@@ -33,7 +35,6 @@ export function authCheck() {
         })
             .then((res, err) => {
                 if (res.status === 200) {
-                    console.log("yeah men")
                     return true;
                 }
                 else {
@@ -48,13 +49,33 @@ export function authCheck() {
             })
     }
     else {
-        console.log("lila mega false")
         return false;
     }
 }
 
-export const logout = () => {
+export function logout() {
+    // let history = useHistory();
     localStorage.removeItem('token');
+    // props.history.push("/");
+    // history.push('/')
 }
 
-export const getSecret = () => { };
+
+export async function getUser() {
+    const token = JSON.parse(localStorage.getItem("token"))
+
+    return await axios.get(`/api/auth`, {
+        headers: {
+            Authorization: `Bearer ` + token
+        }
+    })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => {
+            if (err.status === 401) {
+                console.log("unauthorized")
+                return;
+            }
+        })
+}

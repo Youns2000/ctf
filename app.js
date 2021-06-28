@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
@@ -9,6 +8,7 @@ const LocalStrategy = require('passport-local');
 const passportJWT = require('passport-jwt');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api');
+var mongoose = require('mongoose');
 
 JWTStrategy = passportJWT.Strategy
 
@@ -18,23 +18,6 @@ app.use(cookieParser("hard_token_men"));
 app.use(passport.session());
 app.use(cors());
 
-// const user = {
-//   id: "1",
-//   email: "exemple@email.com",
-//   password: "password"
-// }
-
-// passport.use(new LocalStrategy({
-//   usernameField: 'email',
-//   passwordField: 'password'
-// }, (email, password, done) => {
-//   if (email === user.email && password === user.password) {
-//     return done(null, user)
-//   }
-//   else {
-//     return done(null, false)
-//   }
-// }))
 
 passport.use(
   new LocalStrategy({
@@ -44,6 +27,10 @@ passport.use(
     User.findOne({ email: email }, (err, user) => {
       if (err) throw err;
       if (!user) return done(null, false);
+      if (!user.actived) {
+        console.log("Not Activated");
+        return done(null, false);
+      }
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) throw err;
         if (result === true) {
@@ -57,19 +44,6 @@ passport.use(
   })
 );
 
-// passport.use(new JWTStrategy({
-//   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
-//   secretOrKey: "hard_token_men"
-// }, (jwt_payload, done) => {
-//   if (user.id === jwt_payload.user._id) {
-//     return done(null, user)
-//   } else {
-//     return done(null, false, {
-//       message: "Token not matched"
-//     })
-//   }
-// }
-// ))
 
 passport.use(new JWTStrategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -118,7 +92,6 @@ const {
 
 
 //MONGO DB
-var mongoose = require('mongoose');
 const url = "mongodb://ctf:tRmW97afbONtMBj8RENYWUWGdpCJok330iwtM3HOrAlnOVJvLvthIW9pf6wVHEntPIJP0GIoYscjvgcFMRhR9A==@ctf.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@ctf@"
 
 const connectionParams = {

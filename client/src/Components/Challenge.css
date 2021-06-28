@@ -1,7 +1,7 @@
 .Challenge {
   background-color: #f5e6e654;
-  /* width: auto;
-  height: auto; */
+  width: 200px;
+  height: 150px;
   margin-left: 2%;
   margin-right: 2%;
   margin-top: 2%;
@@ -9,8 +9,9 @@
   border-radius: 10px;
   display: inline-block;
   box-shadow: 12px 12px 2px 1px #726b6b54;
-  transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
-    box-shadow 0.5s, color 0.5s, position 0.5s;
+  /* transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
+    box-shadow 0.5s, color 0.5s, position 0.5s, display 0.5s; */
+  transition: all 0.5s;
 }
 .Challenge:hover {
   cursor: pointer;
@@ -32,8 +33,9 @@
   display: inline-block;
   color: rgb(13, 71, 13);
   background-color: #222;
-  transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
-    box-shadow 0.5s, color 0.5s, position 0.5s;
+  /* transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
+    box-shadow 0.5s, color 0.5s, position 0.5s, display 0.5s; */
+  transition: all 0.5s;
 }
 .ChallengeOpenned:hover {
   cursor: pointer;

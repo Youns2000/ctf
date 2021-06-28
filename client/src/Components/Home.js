@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Component } from 'react'
 import { Button, Card } from 'react-bootstrap';
 import axios from 'axios'
-import { BrowserRouter as Router, Switch, Route, NavLink, Redirect, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, NavLink, Redirect, Link, BrowserRouter } from 'react-router-dom'
 import Header from '../Header/Header.js'
 import Comptes from './Comptes'
 import News from './News';

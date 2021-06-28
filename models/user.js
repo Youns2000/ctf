@@ -15,14 +15,18 @@ const UserItem = new Schema({
         type: String,
         required: true
     },
+    admin: {
+        type: Boolean,
+        default: false
+    },
     actived: {
         type: Boolean,
         default: false
     },
-    admin: {
-        type: Boolean,
-        default: false
+    confirmationCode: {
+        type: String
     }
-})
+
+}, { collection: 'users' })
 
 module.exports = User = mongoose.model('user', UserItem);

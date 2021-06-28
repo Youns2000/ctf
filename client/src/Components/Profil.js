@@ -1,61 +1,64 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Button, Card } from 'react-bootstrap';
 import axios from 'axios'
-import { logout } from '../services/api'
+import { getUser } from '../services/api'
+import { useHistory } from 'react-router-dom'
+import { ReactComponent as Loading } from '../loading.svg';
+import './Profil.css'
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+export default function Profil() {
+    const [user, setUser] = useState({ name: "", email: "", password: "", admin: false, activated: true });
+    const [displayUser, setDisplayUser] = useState(false)
 
-export default class Profil extends Component {
-    constructor() {
-        super();
-        this.state = {
-            users: new Array(),
-            // clientName: "YOUYOU"
+    const history = useHistory();
+
+    function logout() {
+        localStorage.removeItem('token');
+        history.push("/");
+        window.location.reload();
+    }
+
+    async function showUser() {
+        const user = await getUser()
+        console.log(user)
+        return user;
+    }
+
+    useEffect(() => {
+        console.log("mounted profil")
+
+        async function setU() {
+            const newuser = await getUser()
+            user.name = newuser.name;
+            user.email = newuser.email;
+            user.password = newuser.password;
+            user.admin = newuser.admin;
+            user.activated = newuser.activated;
+            setDisplayUser(true)
+            console.log(user)
         }
-    }
 
-    handleClick = () => {
-        axios.post("/api/login").then(response => {
-            console.log(response.data)
-        })
-    };
+        setU()
 
-    componentDidMount() {
-        axios.get("/api/user/register").then(response => {
-            this.setState({
-                users: response.data.tmp
-            })
-            // console.log(response.data.tmp)
-        })
-    }
-
-    handleInputChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    handleButtonClick = () => {
-        const { clientName } = this.state;
-        const client = {
-            clientName
+        return () => {
+            console.log('will unmount');
         }
-        console.log(client)
-        axios.post('/api/create', client)
-            .then(() => console.log('Client Added'))
-            .catch(err => {
-                console.error(err);
-            });
-    }
+    }, [user]);
 
-    render() {
-        return (
-            <div>
-                <h1>Profil</h1>
-                <h2>{this.state.clients}</h2>
-                <Button className="btn" type="submit" onClick={logout()}>Deconnexion</Button>
-
+    return (
+        <div>
+            <h1>Profil</h1>
+            <div id="loader" style={{ display: displayUser ? 'none' : 'block' }}>
+                <Loading />
             </div>
-        )
-    }
+            <div id="content" style={{ display: displayUser ? 'block' : 'none' }}>
+                <h2>{user.name}</h2>
+                <h2>{user.email}</h2>
+                <h2>{user.admin}</h2>
+            </div>
+            <Button className="btn" type="submit" onClick={logout}>Deconnexion</Button>
+            <Button className="btn" type="submit" onClick={showUser}>getUser</Button>
+        </div>
+    )
+
 }
