@@ -8,7 +8,7 @@ export default function Challenges() {
             <Challenge id="1"></Challenge>
             <Challenge id="2"></Challenge>
             <Challenge id="3"></Challenge>
-            <h3>Crytography:</h3>
+            <h3>Cryto:</h3>
             <Challenge id="4"></Challenge>
             <Challenge id="5"></Challenge>
             <Challenge id="6"></Challenge>
