@@ -1,17 +1,31 @@
 @media all and (min-width: 480px) {
   .Login {
     padding: 60px 0;
+    position: relative;
   }
 
   .Login form {
     margin: 0 auto;
     max-width: 320px;
+    position: relative;
   }
 
   .logo-img {
     margin-left: auto;
     margin-right: auto;
     display: block;
+    position: relative;
+    z-index: 0;
     /* margin-right: auto; */
+  }
+
+  .alert {
+    width: 50%;
+    /* margin-left: 33%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9;
   }
 }

@@ -7,8 +7,9 @@ import './fonts/HackArgo/Hacker_Argot_Regular.ttf';
 import './fonts/DejaVu/DejaVuSansMono.ttf';
 import bg from "./fonts/wallpaper.jpg"
 
-document.body.style.backgroundImage = `url(${bg})`;
-document.body.style.color = "#fefefe";
+// document.body.style.backgroundImage = `url(${bg})`;
+document.body.style.backgroundColor = "#2D3737";
+document.body.style.color = "#F0FFFF";
 document.body.style.overflowY = "scroll";
 
 // .body {

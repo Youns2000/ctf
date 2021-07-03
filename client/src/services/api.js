@@ -79,3 +79,28 @@ export async function getUser() {
             }
         })
 }
+
+export async function changeUsername(newUsername, email) {
+    const token = JSON.parse(localStorage.getItem("token"))
+    // console.log("hello")
+    return await axios.post(`/api/changeUsername`, {
+        newUsername,
+        email,
+    },
+        {
+
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => {
+            console.log("error du debut")
+            if (err.status === 401) {
+                console.log("unauthorized")
+                return;
+            }
+        })
+}

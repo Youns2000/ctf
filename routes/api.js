@@ -83,4 +83,30 @@ router.get("/auth", passport.authenticate("jwt", { session: false }), (req, res)
     res.send(req.user);
 })
 
+router.post("/changeUsername", passport.authenticate("jwt", { session: false }), (req, res) => {
+    User.findOne({ email: req.body.email }, function (err, user) {
+        if (err) {
+            console.log(err);
+            console.log("bonsoir")
+            res.sendStatus(500);
+            return;
+        }
+        if (!user) {
+            res.json('Didn\'t found the user!');
+            return;
+        }
+        else {
+            user.name = req.body.newUsername;
+            user.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                    return;
+                }
+                res.json('Done');
+            });
+        }
+    })
+})
+
 module.exports = router;

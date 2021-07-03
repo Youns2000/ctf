@@ -32,13 +32,19 @@ export default function Log() {
             })
     }
 
+    const photo = {
+        height: "300px",
+        width: "360px"
+    };
+
     return (
         <div className="Login">
-            <img
+            {/* <img
                 src={logo}
+                style={photo}
                 alt="logo"
                 className="logo-img"
-            />
+            /> */}
             <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Username</Form.Label>
@@ -72,7 +78,7 @@ export default function Log() {
                 <Button block size="lg" type="submit" disabled={!validateForm()}>
                     Register
                 </Button>
-                <a href="/Login" >Login</a>
+
             </Form>
 
         </div>

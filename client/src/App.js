@@ -12,6 +12,7 @@ import Scoreboard from './Components/Scoreboard';
 import Challenges from './Components/Challenges';
 import Profil from './Components/Profil';
 import Log from './Components/Log/Log'
+import Sign from './Components/Sign'
 
 export default function App() {
 
@@ -20,8 +21,9 @@ export default function App() {
       <Router>
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
-          <Route exact path="/Login" component={Login} />
-          <Route exact path="/Register" component={Register} />
+          <Route exact path="/Login" component={Sign} />
+          {/* <Route exact path="/Login" component={Login} />
+          <Route exact path="/Register" component={Register} /> */}
         </Switch>
       </Router>
     </div>

@@ -1,0 +1,16 @@
+.form {
+  /* text-align: center; */
+  width: 30%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.submitButton {
+  background-color: #4a29c5;
+  border-color: #4a29c5;
+}
+.submitButton:hover {
+  background-color: #5835d6;
+  border-color: #5835d6;
+}
