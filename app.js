@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const User = require('./models/user');
 const cors = require('cors');
 const bcrypt = require('bcrypt')
 const passport = require('passport');
@@ -8,6 +9,7 @@ const LocalStrategy = require('passport-local');
 const passportJWT = require('passport-jwt');
 const cookieParser = require('cookie-parser');
 const apiRouter = require('./routes/api');
+const jwt = require("jsonwebtoken");
 var mongoose = require('mongoose');
 
 JWTStrategy = passportJWT.Strategy
@@ -68,6 +70,17 @@ app.get("*", (req, res) => {
   return res.sendFile(path.join(__dirname, "/client/build/index.html"))
 })
 
+app.get('/confirm', (req, res) => {
+  // console.log('hello')
+  // try {
+  //   const { user: { id } } = jwt.verify(req.params.token, 'hard_token_men');
+  //   await User.update({ activated: true }, { where: { id } });
+  // } catch (e) {
+  //   res.send('error');
+  // }
+
+  res.redirect('http://localhost:3000/Login');
+});
 
 
 //SESSION

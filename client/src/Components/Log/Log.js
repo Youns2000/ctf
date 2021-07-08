@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+import { Form, Alert, Button } from "react-bootstrap";
 import "./Log.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../logo.ico';
@@ -59,7 +57,7 @@ export default function Log() {
                 <div>
                     <div style={{ zIndex: "999" }}>
                         <Alert className="alert" variant="danger" show={show} onClose={() => setShow(false)} dismissible>
-                            <Alert.Heading>Wrong email or password!</Alert.Heading>
+                            Wrong email or password!
                         </Alert>
                     </div>
                     <div className="Login">

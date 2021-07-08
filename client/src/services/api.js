@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react'
 
 const server = process.env.REACT_APP_API_SERVER;
 
-// export default class Services extends React.Component {
-
 export function login(email, password) {
     return axios.post(`/api/login`,
         {
@@ -42,8 +40,39 @@ export function authCheck() {
                 }
             })
             .catch(err => {
-                if (err.response.status === 401) {
+                if (err.status === 401) {
                     console.log("unauthorized")
+                    return false;
+                }
+            })
+    }
+    else {
+        return false;
+    }
+}
+export async function adminCheck() {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token !== null && token !== "") {
+        return await axios.get(`/api/admin`, {
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+            .then((res, err) => {
+                if (res.status === 200) {
+                    return res.data;
+                }
+                else {
+                    return false;
+                }
+            })
+            .catch(err => {
+                if (err.status === 401) {
+                    console.log("unauthorized")
+                    return false;
+                }
+                else {
+                    console.log(err);
                     return false;
                 }
             })
@@ -82,13 +111,76 @@ export async function getUser() {
 
 export async function changeUsername(newUsername, email) {
     const token = JSON.parse(localStorage.getItem("token"))
-    // console.log("hello")
     return await axios.post(`/api/changeUsername`, {
         newUsername,
         email,
     },
         {
 
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => {
+            console.log("error du debut")
+            if (err.status === 401) {
+                console.log("unauthorized")
+                return;
+            }
+        })
+}
+
+export async function changePwd(currentPwd, newPwd, email) {
+    const token = JSON.parse(localStorage.getItem("token"))
+    return await axios.post(`/api/changePwd`, {
+        currentPwd,
+        newPwd,
+        email,
+    },
+        {
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => {
+            console.log("error du debut")
+            if (err.status === 401) {
+                console.log("unauthorized")
+                return;
+            }
+        })
+}
+
+export async function getScoreboard() {
+    const token = JSON.parse(localStorage.getItem("token"))
+    return await axios.get(`/api/scoreboard`,
+        {
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => {
+            console.log("error du debut")
+            if (err.status === 401) {
+                console.log("unauthorized")
+                return;
+            }
+        })
+}
+
+export async function getChallenges() {
+    const token = JSON.parse(localStorage.getItem("token"))
+    return await axios.get(`/api/challenges`,
+        {
             headers: {
                 Authorization: `Bearer ` + token
             }

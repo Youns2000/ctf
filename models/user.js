@@ -25,6 +25,10 @@ const UserItem = new Schema({
     },
     confirmationCode: {
         type: String
+    },
+    score: {
+        type: Number,
+        default: 0
     }
 
 }, { collection: 'users' })

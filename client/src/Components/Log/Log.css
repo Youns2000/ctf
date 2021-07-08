@@ -20,12 +20,12 @@
   }
 
   .alert {
-    width: 50%;
+    /* width: 50%; */
     /* margin-left: 33%; */
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 9;
+    /* align-items: center; */
+    position: absolute;
+    z-index: 999;
   }
 }

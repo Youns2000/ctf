@@ -14,3 +14,7 @@
   background-color: #5835d6;
   border-color: #5835d6;
 }
+.submitButton:active {
+  background-color: #5835d6;
+  border-color: #5835d6;
+}

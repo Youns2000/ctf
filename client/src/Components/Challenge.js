@@ -11,8 +11,8 @@ export default function Challenge(props) {
 
     return (
         <div id={props.id} className="Challenge" onClick={modal}>
-            <h3>challenge</h3>
-            <a href="Challenges" style={{ display: open ? '' : 'none' }}>link</a>
+            <h3>{props.title}</h3>
+            <a href={props.link} style={{ display: open ? '' : 'none' }}>{props.link}</a>
             <p>test</p>
         </div >
     );

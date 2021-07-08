@@ -9,6 +9,7 @@
   border-radius: 10px;
   display: inline-block;
   box-shadow: 14px 11px 20px 2px #4123ac;
+
   /* transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
     box-shadow 0.5s, color 0.5s, position 0.5s, display 0.5s; */
   transition: all 0.5s;
@@ -33,8 +34,8 @@
   display: inline-block;
   color: #4a29c5;
   background-color: #222;
-  /* transition: width 0.5s, height 0.5s, background-color 0.5s, transform 0.5s,
-    box-shadow 0.5s, color 0.5s, position 0.5s, display 0.5s; */
+  /* position: absolute;
+  z-index: 999; */
   transition: all 0.5s;
 }
 .ChallengeOpenned:hover {

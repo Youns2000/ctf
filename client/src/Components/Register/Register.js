@@ -22,7 +22,6 @@ export default function Log() {
             email: email,
             password: password
         }
-        console.log(user)
         axios.post('/api/register', user)
             .then((res) => {
                 console.log(res.data)

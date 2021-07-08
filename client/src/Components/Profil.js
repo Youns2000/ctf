@@ -1,42 +1,37 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { Button, Card, Form } from 'react-bootstrap';
+import { Button, Card, Form, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import axios from 'axios'
-import { getUser, changeUsername } from '../services/api'
+import { getUser, changeUsername, changePwd } from '../services/api'
 import { useHistory } from 'react-router-dom'
 import { ReactComponent as Loading } from '../loading.svg';
 import './Profil.css'
 
 export default function Profil() {
-    const [user, setUser] = useState({ name: "", email: "", password: "", admin: false, activated: true });
+    const [user, setUser] = useState({ name: "", email: "", admin: false, activated: true });
     const [displayUser, setDisplayUser] = useState(false)
     const [tmpUserName, setTmpUserName] = useState()
     const [tmpEmail, setTmpEmail] = useState()
     const [tmpCurrentPwd, setTmpCurrentPwd] = useState()
     const [tmpNewPwd, setTmpNewPwd] = useState()
+    const [alert, setAlert] = useState("")
+    const [showAlert, setShowAlert] = useState(false)
 
     const history = useHistory();
 
-    function logout() {
-        localStorage.removeItem('token');
-        history.push("/");
-        window.location.reload();
-    }
-
-    // async function showUser() {
-    //     const user = await getUser()
-    //     console.log(user)
-    //     return user;
-    // }
 
     const handleSubmit = async () => {
         if (tmpUserName) {
             const CU = await changeUsername(tmpUserName, user.email)
             console.log(CU)
         }
-        if (tmpEmail);
-        if (tmpCurrentPwd);
-        if (tmpNewPwd);
+        if (tmpEmail) {
+            // const CE = await changeE(tmpUserName, user.email)
+        }
+        if (tmpCurrentPwd && tmpNewPwd) {
+            const CP = await changePwd(tmpCurrentPwd, tmpNewPwd, user.email)
+            setAlert(CP)
+            setShowAlert(true)
+        }
     }
 
     useEffect(() => {
@@ -47,7 +42,7 @@ export default function Profil() {
             if (newuser) {
                 user.name = newuser.name;
                 user.email = newuser.email;
-                user.password = newuser.password;
+                // user.password = newuser.password;
                 user.admin = newuser.admin;
                 user.activated = newuser.activated;
                 setDisplayUser(true)
@@ -67,10 +62,11 @@ export default function Profil() {
             <div id="loader" style={{ display: displayUser ? 'none' : 'block' }}>
                 <Loading />
             </div>
+            <Alert className="alert" variant="success" show={showAlert} onClose={() => setShowAlert(false)} dismissible>
+                {alert}
+            </Alert>
             <div id="content" className="form" style={{ display: displayUser ? 'block' : 'none' }}>
-                {/* <h2>{user.name}</h2>
-                <h2>{user.email}</h2>
-                <h2>{user.admin}</h2> */}
+
                 <Form>
                     <Form.Group controlId="formGroupUsername">
                         <Form.Label>Username</Form.Label>

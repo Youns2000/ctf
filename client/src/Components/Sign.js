@@ -29,7 +29,7 @@ export default function Sign() {
                 {/* <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
                     <Tab eventKey="login" title="Sign In"> */}
                 {input ? <Login /> : <Register />}
-                <th style={{ cursor: "pointer" }} onClick={() => setInput(!input)} >  {input ? "You don't have an account ? register" : "You already have an account? login"}</th>
+                <p style={{ cursor: "pointer" }} onClick={() => setInput(!input)} >  {input ? "You don't have an account ? register" : "You already have an account? login"}</p>
                 {/* </Tab>
                     <Tab eventKey="register" title="Sign Up">
                         <Register />
