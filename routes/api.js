@@ -82,7 +82,6 @@ router.post('/register', async (req, res) => {
 })
 
 router.get("/auth", passport.authenticate("jwt", { session: false }), (req, res) => {
-    // console.log('hello')
     res.send(req.user);
 })
 router.get("/admin", passport.authenticate("jwt", { session: false }), (req, res) => {

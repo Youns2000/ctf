@@ -70,14 +70,14 @@ app.get("*", (req, res) => {
   return res.sendFile(path.join(__dirname, "/client/build/index.html"))
 })
 
-app.get('/confirm', (req, res) => {
-  // console.log('hello')
-  // try {
-  //   const { user: { id } } = jwt.verify(req.params.token, 'hard_token_men');
-  //   await User.update({ activated: true }, { where: { id } });
-  // } catch (e) {
-  //   res.send('error');
-  // }
+app.get('/confirm/:token', async (req, res) => {
+  try {
+    console.log(req.params)
+    const { user: { id } } = jwt.verify(req.params, 'hard_token_men');
+    await User.update({ activated: true }, { where: { id } });
+  } catch (e) {
+    res.send('error');
+  }
 
   res.redirect('http://localhost:3000/Login');
 });
