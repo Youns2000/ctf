@@ -12,6 +12,7 @@ export default function Log() {
     const [password, setPassword] = useState("");
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [contentAlert, setContentAlert] = useState("");
 
     const history = useHistory();
 
@@ -26,8 +27,9 @@ export default function Log() {
         try {
             const token = await login(email, password)
             setLoading(false)
-            if (token === "Wrong email or password") {
+            if (token === "Wrong email or password" || token === "Your account is not activated") {
                 setShow(true)
+                setContentAlert(token)
             }
             else {
                 localStorage.setItem('token', JSON.stringify(token.token));
@@ -57,7 +59,7 @@ export default function Log() {
                 <div>
                     <div style={{ zIndex: "999" }}>
                         <Alert className="alert" variant="danger" show={show} onClose={() => setShow(false)} dismissible>
-                            Wrong email or password!
+                            {contentAlert}
                         </Alert>
                     </div>
                     <div className="Login">

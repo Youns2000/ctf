@@ -7,6 +7,8 @@ const User = require('../models/user');
 const Challenge = require('../models/challenge');
 const router = require('express').Router();
 const email = require('../email.js');
+const mailgun = require("mailgun-js");
+
 
 router.post("/login", (req, res, next) => {
     passport.authenticate('local', (err, user) => {
@@ -16,10 +18,14 @@ router.post("/login", (req, res, next) => {
         if (!user) {
             return res.send("Wrong email or password")
         }
+        if (!user.actived) {
+            res.send("Your account is not activated")
+            return;
+        }
         req.login(user, () => {
             const body = { _id: user.id, email: user.email }
 
-            const token = jwt.sign({ user: body }, "hard_token_men")
+            const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10800s' })
             return res.json({ token })
         })
     })(req, res, next)
@@ -27,14 +33,12 @@ router.post("/login", (req, res, next) => {
 
 router.post('/register', async (req, res) => {
     User.findOne({ email: req.body.email }, async (err, element) => {
-        // console.log(element.email)
         if (err) {
             console.log(err);
             res.sendStatus(500);
             return;
         }
         else if (element) {
-            console.log(element)
             res.send("Email Already Exist!");
         }
         else {
@@ -50,7 +54,7 @@ router.post('/register', async (req, res) => {
                 else {
                     const salt = await bcrypt.genSalt(10);
                     const mdp = await bcrypt.hash(req.body.password, salt);
-                    const token = jwt.sign({ email: req.body.email }, "hard_token_men")
+                    const token = jwt.sign({ email: req.body.email }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw")
                     const newUser = new User({
                         name: req.body.name,
                         email: req.body.email,
@@ -67,10 +71,10 @@ router.post('/register', async (req, res) => {
                             newUser.email,
                             newUser.confirmationCode
                         );
-                        res.send({
-                            message:
-                                "User was registered successfully! Please check your email",
-                        });
+
+                        res.send(
+                            "User was registered successfully! Please check your email",
+                        );
 
                     });
                 }
@@ -82,8 +86,15 @@ router.post('/register', async (req, res) => {
 })
 
 router.get("/auth", passport.authenticate("jwt", { session: false }), (req, res) => {
-    res.send(req.user);
+    if (res.err) res.send(false);
+    else res.send(true)
 })
+
+router.get("/getUser", passport.authenticate("jwt", { session: false }), (req, res) => {
+    if (res.err) res.send(false);
+    else res.send(req.user)
+})
+
 router.get("/admin", passport.authenticate("jwt", { session: false }), (req, res) => {
     res.send(req.user.admin);
 })
@@ -175,15 +186,44 @@ router.get("/challenges", passport.authenticate("jwt", { session: false }), (req
             var challengesMap = {};
             challenges.forEach(function (challenge) {
                 challengesMap[challenge._id] = {
+                    id: challenge._id,
                     title: challenge.title,
                     categorie: challenge.categorie,
                     link: challenge.link,
-                    flags: challenge.flags
+                    flags: challenge.flags,
+                    desc: challenge.desc
                 };
             });
             res.json(challengesMap);
         }
     });
 })
+
+
+router.post("/flagCheck", passport.authenticate("jwt", { session: false }), (req, res) => {
+    Challenge.findOne({ _id: req.body.id }, function (err, challenge) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
+        }
+        if (!challenge) {
+            res.json('Didn\'t found the challenge!');
+            return;
+        }
+        else {
+            if (Object.values(challenge.flags).indexOf(req.body.flag) > -1) {
+                res.send('Flag Checked!');
+            }
+            else {
+                console.log('wrong')
+                res.send('wrong Flag!');
+            }
+
+        }
+    })
+})
+
+
 
 module.exports = router;

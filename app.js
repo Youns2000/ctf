@@ -16,7 +16,7 @@ JWTStrategy = passportJWT.Strategy
 
 const app = express();
 app.use(passport.initialize());
-app.use(cookieParser("hard_token_men"));
+app.use(cookieParser("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw"));
 app.use(passport.session());
 app.use(cors());
 
@@ -29,16 +29,15 @@ passport.use(
     User.findOne({ email: email }, (err, user) => {
       if (err) throw err;
       if (!user) return done(null, false);
-      if (!user.actived) {
-        console.log("Not Activated");
-        return done(null, false);
-      }
+      // if (!user.actived) {
+      //   console.log("Not Activated");
+      //   return done(null, false);
+      // }
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) throw err;
         if (result === true) {
           return done(null, user);
         } else {
-          console.log("false");
           return done(null, false);
         }
       });
@@ -49,7 +48,7 @@ passport.use(
 
 passport.use(new JWTStrategy({
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "hard_token_men"
+  secretOrKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw"
 }, (jwt_payload, done) => {
   User.findOne({ _id: jwt_payload.user._id }, (err, user) => {
     if (err) throw err;
@@ -70,17 +69,39 @@ app.get("*", (req, res) => {
   return res.sendFile(path.join(__dirname, "/client/build/index.html"))
 })
 
-app.get('/confirm/:token', async (req, res) => {
+app.post('/confirm', async (req, res) => {
   try {
-    console.log(req.params)
-    const { user: { id } } = jwt.verify(req.params, 'hard_token_men');
-    await User.update({ activated: true }, { where: { id } });
+    const { email } = jwt.verify(req.body.token, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw');
+    console.log(email)
+    User.findOne({ email: email }, async (err, user) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      else if (user === null) {
+        res.send(false);
+        return;
+      }
+      user.actived = true;
+      user.save(function (err) {
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+          return;
+        }
+        res.send(true);
+      });
+    })
+    // await User.update({ activated: true }, { where: { id } });
   } catch (e) {
-    res.send('error');
+    res.send(e);
   }
 
-  res.redirect('http://localhost:3000/Login');
+  // res.redirect('http://localhost:3000/Login');
 });
+
+
 
 
 //SESSION

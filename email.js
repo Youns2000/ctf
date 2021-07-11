@@ -1,7 +1,25 @@
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer");
 const config = require("./config.js");
+const mailgun = require("mailgun-js");
 
+
+
+// module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
+//     const DOMAIN = 'sandbox4df5c7d717a54131a74f91aa31de96cc.mailgun.org';
+//     const mg = mailgun({ apiKey: '12131c88d746e84691443dc866f419c7-c4d287b4-57864ee1', domain: DOMAIN });
+//     const data = {
+//         from: "ctfalgebra@gmail.com",
+//         to: email,
+//         subject: 'Hello ' + { name },
+//         text: 'Please confirm your email by clicking on the following link'
+//     };
+//     mg.messages().send(data, function (error, body) {
+//         if (error) console.log(error)
+//         else console.log(body);
+//     });
+
+// };
 
 
 module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {

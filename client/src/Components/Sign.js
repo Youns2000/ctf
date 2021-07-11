@@ -13,6 +13,7 @@ export default function Sign() {
         width: "360px"
     };
 
+
     return (
         // <>
         <div className="all">

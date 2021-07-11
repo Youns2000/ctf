@@ -31,9 +31,9 @@ export default function Home() {
         <div>
             <Router>
                 <Header />
-                <Route exact path="/" component={News} />
+                <Route exact path="/" component={Challenges} />
                 {isadmin ? <Route exact path="/Admin" component={Admin} /> : null}
-                <Route exact path="/News" component={News} />
+                {/* <Route exact path="/News" component={News} /> */}
                 <Route path="/Challenges" component={Challenges} />
                 <Route path="/Scoreboard" component={Scoreboard} />
                 <Route path="/Profil" component={Profil} />

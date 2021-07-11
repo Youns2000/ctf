@@ -24,27 +24,36 @@ export function login(email, password) {
 };
 
 export function authCheck() {
-    const token = JSON.parse(localStorage.getItem("token"))
-    if (token !== null && token !== "") {
-        return axios.get(`/api/auth`, {
-            headers: {
-                Authorization: `Bearer ` + token
-            }
-        })
-            .then((res, err) => {
-                if (res.status === 200) {
-                    return true;
-                }
-                else {
-                    return false;
+    if (localStorage.getItem("token") !== null) {
+        const token = JSON.parse(localStorage.getItem("token"))
+        if (token !== null && token !== "") {
+            return axios.get(`/api/auth`, {
+                headers: {
+                    Authorization: `Bearer ` + token
                 }
             })
-            .catch(err => {
-                if (err.status === 401) {
-                    console.log("unauthorized")
-                    return false;
-                }
-            })
+                .then((res, err) => {
+                    if (res.status === 200) {
+                        return true;
+                    }
+                    else {
+                        localStorage.removeItem('token');
+                        return false;
+                    }
+                })
+                .catch(err => {
+                    if (err.status === 401) {
+                        localStorage.removeItem('token');
+                        window.location.href = "https://ctf-algebra.azurewebsites.net/";
+                        window.location.reload();
+                        console.log("401")
+                        return false;
+                    }
+                })
+        }
+        else {
+            return false;
+        }
     }
     else {
         return false;
@@ -93,7 +102,7 @@ export function logout() {
 export async function getUser() {
     const token = JSON.parse(localStorage.getItem("token"))
 
-    return await axios.get(`/api/auth`, {
+    return await axios.get(`/api/getUser`, {
         headers: {
             Authorization: `Bearer ` + token
         }
@@ -195,4 +204,36 @@ export async function getChallenges() {
                 return;
             }
         })
+}
+
+export async function flagCheck(id, flag) {
+    const token = JSON.parse(localStorage.getItem("token"))
+    if (token !== null && token !== "") {
+        return await axios.post(`/api/flagCheck`, { id, flag }, {
+            headers: {
+                Authorization: `Bearer ` + token
+            }
+        })
+            .then((res, err) => {
+                if (res.data === "Flag Checked!") {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            })
+            .catch(err => {
+                if (err.status === 401) {
+                    console.log("unauthorized")
+                    return false;
+                }
+                else {
+                    console.log(err);
+                    return false;
+                }
+            })
+    }
+    else {
+        return false;
+    }
 }

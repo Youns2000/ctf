@@ -13,6 +13,7 @@ import Challenges from './Components/Challenges';
 import Profil from './Components/Profil';
 import Log from './Components/Log/Log'
 import Sign from './Components/Sign'
+import Confirm from './Confirm'
 
 export default function App() {
 
@@ -22,6 +23,7 @@ export default function App() {
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
           <Route exact path="/Login" component={Sign} />
+          <Route exact path='/confirm/:token' component={Confirm} />
           {/* <Route exact path="/Login" component={Login} />
           <Route exact path="/Register" component={Register} /> */}
         </Switch>

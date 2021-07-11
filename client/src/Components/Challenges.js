@@ -9,6 +9,7 @@ import { ReactComponent as Loading } from '../loading.svg';
 export default function Challenges() {
     const [challenges, setChallenges] = useState([{ title: "", categorie: "", link: "" }]);
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(0);
 
     useEffect(() => {
 
@@ -30,23 +31,21 @@ export default function Challenges() {
     }, [challenges]);
 
     function showArray() {
-        var ids = 0;
         var output = [];
         var boot = [];
         var crypto = [];
         var cracking = [];
 
         challenges.forEach(c => {
-            ids++;
             switch (c.categorie) {
                 case "Boot2Root":
-                    boot.push(<Challenge id={ids.toString()} title={c.title} link={c.link}></Challenge>)
+                    boot.push(<Challenge id={c.id} title={c.title} link={c.link} desc={c.desc}></Challenge>)
                     break;
                 case "Crypto":
-                    crypto.push(<Challenge id={ids.toString()} title={c.title} link={c.link}></Challenge>)
+                    crypto.push(<Challenge id={c.id} title={c.title} link={c.link} desc={c.desc}></Challenge>)
                     break;
                 case "Cracking":
-                    cracking.push(<Challenge id={ids.toString()} title={c.title} link={c.link}></Challenge>)
+                    cracking.push(<Challenge id={c.id} title={c.title} link={c.link} desc={c.desc}></Challenge>)
                     break;
                 default:
                     break;

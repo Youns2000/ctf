@@ -21,6 +21,11 @@ const ChallengeItem = new Schema({
         type: String,
         default: "",
         required: false
+    },
+    desc: {
+        type: String,
+        default: "",
+        required: false
     }
 
 }, { collection: 'challenges' })

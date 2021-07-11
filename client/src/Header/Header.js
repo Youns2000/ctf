@@ -30,7 +30,8 @@ export default function Header() {
 
     function logout() {
         localStorage.removeItem('token');
-        history.push("/");
+        // history.push("/");
+        window.location.href = "https://ctf-algebra.azurewebsites.net/";
         window.location.reload();
     }
 
@@ -51,14 +52,14 @@ export default function Header() {
                     <Link style={{ color: active === -1 ? color_active : color_inactive }} onClick={() => setActive(-1)} to={process.env.PUBLIC_URL + '/Admin'}>
                         <Person size={32} />
                     </Link> : null}
-                <Link style={{ color: active === 0 ? color_active : color_inactive }} onClick={() => setActive(0)} to={process.env.PUBLIC_URL + '/'}>
+                {/* <Link style={{ color: active === 0 ? color_active : color_inactive }} onClick={() => setActive(0)} to={process.env.PUBLIC_URL + '/'}>
                     <House size={32} />
-                </Link>
+                </Link> */}
                 <Link style={{ color: active === 1 ? color_active : color_inactive }} onClick={() => setActive(1)} to={process.env.PUBLIC_URL + '/Scoreboard'}>
                     <ListOl size={32} />
                     {/* Scoreboard */}
                 </Link>
-                <Link style={{ color: active === 2 ? color_active : color_inactive }} onClick={() => setActive(2)} to={process.env.PUBLIC_URL + '/Challenges'}>
+                <Link style={{ color: active === 0 ? color_active : color_inactive }} onClick={() => setActive(0)} to={process.env.PUBLIC_URL + '/'}>
                     <Puzzle size={32} />
                 </Link>
                 <Link style={{ color: active === 3 ? color_active : color_inactive }} onClick={() => setActive(3)} to={process.env.PUBLIC_URL + '/Profil'}>

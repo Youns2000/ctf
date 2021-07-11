@@ -22,7 +22,8 @@ export default function Profil() {
     const handleSubmit = async () => {
         if (tmpUserName) {
             const CU = await changeUsername(tmpUserName, user.email)
-            console.log(CU)
+            setAlert(CU)
+            setShowAlert(true)
         }
         if (tmpEmail) {
             // const CE = await changeE(tmpUserName, user.email)
