@@ -4,3 +4,8 @@
   margin-left: 4%;
   margin-right: 4%;
 }
+
+a {
+  word-wrap: break-word;
+  white-space: normal;
+}

@@ -26,6 +26,11 @@ const ChallengeItem = new Schema({
         type: String,
         default: "",
         required: false
+    },
+    solved: {
+        type: Array,
+        default: [],
+        required: false
     }
 
 }, { collection: 'challenges' })

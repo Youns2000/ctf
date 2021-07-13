@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tabs, Tab, ListGroup, Row, Col } from "react-bootstrap";
+import { Table, Tab, ListGroup, Row, Col } from "react-bootstrap";
 import "./Admin.css";
 import { getChallenges } from '../services/api'
 import { ReactComponent as Loading } from '../loading.svg';
@@ -31,59 +31,36 @@ export default function Admin() {
     function ShowChallenges() {
         var output = [];
         challenges.forEach(c => {
-            output.push(
-                <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
-                    <Row>
-                        <Col sm={4}>
-                            <ListGroup>
-                                <ListGroup.Item action href="#link1">
-                                    Link 1
-                                </ListGroup.Item>
-                                <ListGroup.Item action href="#link2">
-                                    Link 2
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Col>
-                        <Col sm={8}>
-                            <Tab.Content>
-                                <Tab.Pane eventKey="#link1">
-                                    test1
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="#link2">
-                                    test2
-                                </Tab.Pane>
-                            </Tab.Content>
-                        </Col>
-                    </Row>
-                </Tab.Container>
-            )
+            output.push(<tr>
+                <td>{c.title}</td>
+                <td>{c.categorie}</td>
+                <td>{c.flags[0]}</td>
+                <td>{c.link}</td>
+            </tr>)
+
         });
         return (output);
     }
 
 
-    function ControlledTabs() {
-
-        return (
-            <Tabs
-                id="controlled-tab-example"
-                activeKey={key}
-                onSelect={(k) => setKey(k)}
-            >
-                <Tab eventKey="challenges" title="Challenges">
-                    {loading ? <Loading /> : <ShowChallenges />}
-                </Tab>
-                <Tab eventKey="users" title="Users">
-                    <p>test2</p>
-                </Tab>
-            </Tabs>
-        );
-    }
 
     return (
         <div>
-            <ControlledTabs />
+            {loading ? <Loading /> : <Table striped bordered hover variant="dark">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Categorie</th>
+                        <th>Flag</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {ShowChallenges()}
+                </tbody>
+            </Table>}
         </div>
 
     );
+
 }

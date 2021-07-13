@@ -21,6 +21,11 @@
   box-shadow: 14px 11px 9px 2px #423e3e54;
 }
 
+/* a {
+  word-wrap: break-word;
+  white-space: normal;
+} */
+
 .ChallengeOpenned {
   background-color: #f5e6e6;
   width: 400px;

@@ -30,8 +30,8 @@ export default function Header() {
 
     function logout() {
         localStorage.removeItem('token');
-        // history.push("/");
-        window.location.href = "https://ctf-algebra.azurewebsites.net/";
+        history.push("/");
+        // window.location.href = "https://ctf-algebra.azurewebsites.net/";
         window.location.reload();
     }
 

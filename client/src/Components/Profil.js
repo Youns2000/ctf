@@ -36,8 +36,6 @@ export default function Profil() {
     }
 
     useEffect(() => {
-        // console.log("mounted profil")
-
         async function setU() {
             const newuser = await getUser()
             if (newuser) {
@@ -53,7 +51,6 @@ export default function Profil() {
         setU()
 
         return () => {
-            // console.log('will unmount');
         }
     }, [user]);
 
@@ -75,7 +72,7 @@ export default function Profil() {
                     </Form.Group>
                     <Form.Group controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={e => setTmpEmail(e.target.value)} defaultValue={user.email} />
+                        <Form.Control type="email" placeholder="Enter email" onChange={e => setTmpEmail(e.target.value)} defaultValue={user.email} disabled />
                     </Form.Group>
                     <Form.Group controlId="formGroupCurrentPassword">
                         <Form.Label>Current Password</Form.Label>

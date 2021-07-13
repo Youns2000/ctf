@@ -33,7 +33,7 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
             user: user,
             pass: pass,
         },
-        port: 587,
+        port: 465,
         // host: 'ctf-algebra.azurewebsites.net',
         host: 'smtp.gmail.com',
         tls: {

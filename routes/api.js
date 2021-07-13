@@ -25,7 +25,8 @@ router.post("/login", (req, res, next) => {
         req.login(user, () => {
             const body = { _id: user.id, email: user.email }
 
-            const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10800s' })
+            // const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10800s' })
+            const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10s' })
             return res.json({ token })
         })
     })(req, res, next)
@@ -92,7 +93,14 @@ router.get("/auth", passport.authenticate("jwt", { session: false }), (req, res)
 
 router.get("/getUser", passport.authenticate("jwt", { session: false }), (req, res) => {
     if (res.err) res.send(false);
-    else res.send(req.user)
+    else res.json(
+        {
+            email: req.user.email,
+            name: req.user.name,
+            score: req.user.score,
+            admin: req.user.admin,
+            actived: req.user.actived
+        })
 })
 
 router.get("/admin", passport.authenticate("jwt", { session: false }), (req, res) => {
@@ -168,10 +176,12 @@ router.get("/scoreboard", passport.authenticate("jwt", { session: false }), (req
             var userMap = {};
 
             users.forEach(function (user) {
-                userMap[user._id] = {
-                    username: user.name,
-                    score: user.score
-                };
+                if (user.actived) {
+                    userMap[user._id] = {
+                        username: user.name,
+                        score: user.score
+                    };
+                }
             });
             res.json(userMap);
         }
@@ -190,8 +200,9 @@ router.get("/challenges", passport.authenticate("jwt", { session: false }), (req
                     title: challenge.title,
                     categorie: challenge.categorie,
                     link: challenge.link,
-                    flags: challenge.flags,
-                    desc: challenge.desc
+                    desc: challenge.desc,
+                    solved: challenge.solved,
+                    flags: challenge.flags
                 };
             });
             res.json(challengesMap);
@@ -212,11 +223,37 @@ router.post("/flagCheck", passport.authenticate("jwt", { session: false }), (req
             return;
         }
         else {
-            if (Object.values(challenge.flags).indexOf(req.body.flag) > -1) {
-                res.send('Flag Checked!');
+            // if (Object.values(challenge.flags).indexOf(req.body.flag) > -1) {
+            if (challenge.flags[0] == req.body.flag) {
+                // console.log(req.user)
+                challenge.solved.push(req.user.email)
+                challenge.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                        return;
+                    }
+                    User.findOne({ email: req.user.email }, function (err, user) {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+                        user.score += 100
+                        user.save(function (err) {
+                            if (err) {
+                                console.log(err);
+                                res.sendStatus(500);
+                                return;
+                            }
+                            res.send('Flag Checked!');
+                        })
+
+                    })
+
+                });
             }
             else {
-                console.log('wrong')
                 res.send('wrong Flag!');
             }
 

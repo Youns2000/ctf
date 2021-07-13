@@ -38,6 +38,8 @@ export function authCheck() {
                     }
                     else {
                         localStorage.removeItem('token');
+                        window.location.href = "https://ctf-algebra.azurewebsites.net/";
+                        window.location.reload();
                         return false;
                     }
                 })
