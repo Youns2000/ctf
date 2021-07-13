@@ -25,8 +25,7 @@ router.post("/login", (req, res, next) => {
         req.login(user, () => {
             const body = { _id: user.id, email: user.email }
 
-            // const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10800s' })
-            const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10s' })
+            const token = jwt.sign({ user: body }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkw", { expiresIn: '10800s' })
             return res.json({ token })
         })
     })(req, res, next)
