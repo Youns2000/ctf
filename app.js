@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session');
 const path = require('path');
 const User = require('./models/user');
 const cors = require('cors');
@@ -63,6 +62,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "client/build")))
+
+
 //ROUTES
 app.use('/api', apiRouter);
 app.get("*", (req, res) => {
@@ -103,28 +104,6 @@ app.post('/confirm', async (req, res) => {
 
 
 
-
-//SESSION
-const TWO_H = 2 * 60 * 60 * 1000;
-const {
-  port = process.env.PORT || 5000,
-  SESSION_LIFETIME = TWO_H
-} = process.env
-
-// app.use(session({
-//   name: 'sess_id',
-//   resave: false,
-//   cookie: {
-//     maxAge: SESSION_LIFETIME,
-//     samesite: true,
-//     secure: false
-//   },
-//   secret: 'that\'s a secret men',
-//   saveUninitialized: false
-// }));
-
-
-
 //MONGO DB
 const url = "mongodb://ctf:tRmW97afbONtMBj8RENYWUWGdpCJok330iwtM3HOrAlnOVJvLvthIW9pf6wVHEntPIJP0GIoYscjvgcFMRhR9A==@ctf.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@ctf@"
 
@@ -141,15 +120,15 @@ mongoose.connect(url, connectionParams)
     console.error(`Error connecting to the Mongo database. \n${err}`);
   })
 
-// app.use(function (err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.send(err.message);
-// });
+  // render the error page
+  res.status(err.status || 500);
+  res.send(err.message);
+});
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
